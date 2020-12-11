@@ -6,6 +6,7 @@ import { SecureRoute, Security, LoginCallback } from '@okta/okta-react';
 import { OktaAuth } from '@okta/okta-auth-js';
 import Home from './Home';
 import Protected from './Protected';
+import UserList from './UserList';
 
 const oktaAuth = new OktaAuth({
   issuer: 'https://dev-165088.okta.com/oauth2/default',
@@ -20,6 +21,7 @@ class App extends Component {
           <Route path='/' exact={true} component={Home}/>
           <SecureRoute path='/protected' component={Protected}/>
           <Route path='/login/callback' component={LoginCallback} />
+          <SecureRoute path='/users' component={UserList}/>
         </Security>
       </Router>
     );

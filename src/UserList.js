@@ -11,14 +11,25 @@ export default withOktaAuth(class MessageList extends Component {
   }
 
   async componentDidMount() {
+    let headers = new Headers();
+
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+
+    headers.append('Access-Control-Allow-Origin', 'http://localhost:3000');
+    headers.append('Access-Control-Allow-Credentials', 'true');
+
+    headers.append('GET', 'POST', 'OPTIONS');
+
+    headers.append('Authorization', 'Bearer ' + this.props.authState.accessToken);
     try {
-      const response = await fetch('http://localhost:{serverPort}/api/messages', {
-        headers: {
-          Authorization: 'Bearer ' + this.props.authState.accessToken
-        }
+      const response = await fetch('https://localhost:44302/users', {
+        headers: this.headers,
+        credentials: 'include',
+        method: 'GET'
       });
       const data = await response.json();
-      this.setState({ messages: data.messages });
+      this.setState({ messages: data });
     } catch (err) {
       // handle error as needed
     }
